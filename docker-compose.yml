@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  node-api:
+    image: node:lts-alpine3.16
+    ports:
+      - ${NODE_PORT}:3000
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    entrypoint: npm run dev
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - dbvolume:/let/lib/mysql
+
+volumes:
+  dbvolume:
+    driver: local
