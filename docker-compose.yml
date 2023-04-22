@@ -21,7 +21,7 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
-      - dbvolume:/let/lib/mysql
+      - dbvolume:/var/lib/mysql
 
 volumes:
   dbvolume:
