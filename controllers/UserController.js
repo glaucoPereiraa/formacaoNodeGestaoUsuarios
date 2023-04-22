@@ -1,6 +1,5 @@
 const User = require("../models/User")
 
-
 class UserController {
 
     async index(req, res)
@@ -80,11 +79,27 @@ class UserController {
             return res.json({err: "Ja existe um usuario com este email"})
         }
 
-        await User.updateById(id,req.body)
+        await User.updateById(id,{
+            email,
+            name,
+            password
+        })
 
         return res.json({message: "Usuario atualizado com sucesso."})    
     }
 
+    async delete(req, res)
+    {
+        let id = req.params.id
+        let user = await User.delete(id)
+
+        if (user > 0) {
+            return res.json({message: "Usuario deletado com sucesso."})
+        }
+        
+        res.status(406)
+        return res.json({message: "Usuario nao foi encontado."})
+    }
 }
 
 module.exports = new UserController()

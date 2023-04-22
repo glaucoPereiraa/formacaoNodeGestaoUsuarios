@@ -1,12 +1,13 @@
 const knex = require("../database/connection")
 const bcrypt = require("bcrypt")
 
-class User{
+class User
+{
     async findAll()
     {
         try {
             return await knex
-                .select("id", "name", "email", "role")
+                .select(["id", "name", "email", "role"])
                 .from('users')
         } catch (error) {
             console.log(error)
@@ -17,7 +18,7 @@ class User{
     {
         try {
             return await knex
-                .select("id", "name", "email", "role")
+                .select(["id", "name", "email", "role"])
                 .from("users")
                 .where({id})
         } catch (error) {
@@ -29,7 +30,7 @@ class User{
     {
         try {
             return await knex
-                .select("id", "name", "email", "role")
+                .select(["id", "name", "email", "role"])
                 .from("users")
                 .where({email})
         } catch (error) {
@@ -41,27 +42,35 @@ class User{
     {
         let hash = bcrypt.hashSync(password, 8)
         try {
-            return await knex("users").insert({
-                email,
-                password: hash,
-                name,
-                role: 0
-            })
+            return await knex("users")
+                .insert({
+                    email,
+                    password: hash,
+                    name,
+                    role: 0
+                })
         } catch (error) {
             console.log(error)
         }
     }
 
-    async updateById(id, {name, email, role})
+    async updateById(id, body)
     {
         try {
             return await knex("users")
-            .where({id})
-            .update({
-                name,
-                email,
-                role
-            })
+                .where({id})
+                .update(body)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async delete(id)
+    {
+        try {
+            return await knex("users")
+                .where({id})
+                .delete()
         } catch (error) {
             console.log(error)
         }
