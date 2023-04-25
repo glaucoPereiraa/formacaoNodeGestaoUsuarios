@@ -30,7 +30,7 @@ class User
     {
         try {
             return await knex
-                .select(["id", "name", "email", "role"])
+                .select(["id", "name", "password", "email", "role"])
                 .from("users")
                 .where({email})
         } catch (error) {
